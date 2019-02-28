@@ -1,0 +1,26 @@
+Vagrant.configure("2") do |config|
+
+	# Define the box's OS
+    config.vm.box = "ubuntu/xenial64"
+	
+	# Forwarded ports
+	config.vm.network :forwarded_port, guest: 80, host: 80, host_ip: "127.0.0.1"
+	config.vm.network :forwarded_port, guest: 3306, host: 3306, host_ip: "127.0.0.1"
+
+    # Disable the default /vagrant mount
+    config.vm.synced_folder ".", "/vagrant", disabled: true
+        
+	# Sync "/var/www/html" with the current local folder
+    config.vm.synced_folder ".", "/var/www/html"
+	
+	# Define the location of the provisioner
+	config.vm.provision "shell", path: ".box/provision.sh"
+	
+	# Configure some provider settings like memory and CPU
+    config.vm.provider "virtualbox" do |v|
+       v.memory = 8192
+       v.cpus = 4
+
+       v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+    end
+end

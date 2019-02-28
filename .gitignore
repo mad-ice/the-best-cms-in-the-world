@@ -1,0 +1,23 @@
+# Ignore everything,
+*
+
+# except directories,
+!*/
+
+# and git files.
+!.gitignore
+!.gitkeep
+
+##
+# Start whitelisting
+##
+
+# Important root files
+!/README.md
+!/Vagrantfile.example
+
+# Box directories
+!/.box/**
+
+# Project directories
+!/project/**
